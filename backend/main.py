@@ -32,6 +32,33 @@ def create_contact():
     
     return jsonify({"messsage": "Contact created successfully!"}), 201
 
+@app.route('/update_contact/<int:id>', methods=['PUT'])
+def update_contact(id):
+    contact = Contact.query.get(id)
+
+    if not contact:
+        return jsonify({"message": "Contact not found!"}), 404
+    
+    contact.first_name = request.json.get('firstName', contact.first_name)
+    contact.last_name = request.json.get('lastName', contact.last_name)
+    contact.email = request.json.get('email', contact.email)
+
+    db.session.commit()
+
+    return jsonify({"message": "Contact updated successfully!"}), 200
+
+@app.route('/delete_contact/<int:id>', methods=['DELETE'])
+def delete_contact(id):
+    contact = Contact.query.get(id)
+
+    if not contact:
+        return jsonify({"message": "Contact not found!"}), 404
+    
+    db.session.delete(contact)
+    db.session.commit()
+    
+    return jsonify({"message": "Contact deleted successfully!"}), 200
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
