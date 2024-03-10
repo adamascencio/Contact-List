@@ -29,6 +29,8 @@ def create_contact():
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
+    
+    return jsonify({"messsage": "Contact created successfully!"}), 201
 
 if __name__ == "__main__":
     with app.app_context():
