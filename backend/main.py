@@ -18,9 +18,7 @@ def create_contact():
     email = request.json.get('email')
     
     if not first_name or not last_name or not email:
-        return jsonify({"message": "You must include a first name, last name, and email"},
-                       400
-                       )
+        return jsonify({"message": "You must include a first name, last name, and email"}), 400
     
     new_contact = Contact(first_name=first_name, last_name=last_name, email=email)
 
@@ -56,7 +54,7 @@ def delete_contact(id):
     
     db.session.delete(contact)
     db.session.commit()
-    
+
     return jsonify({"message": "Contact deleted successfully!"}), 200
 
 if __name__ == "__main__":
