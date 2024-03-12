@@ -1,7 +1,7 @@
 import { ContactType } from "./types/ContactType";
 import PropTypes from 'prop-types';
 
-const ContactList = ({ contacts }) => {
+const ContactList = ({ contacts, updateContact }) => {
   return (
     <div>
       <h2>Contacts</h2>
@@ -21,7 +21,7 @@ const ContactList = ({ contacts }) => {
               <td>{contact.lastName}</td>
               <td>{contact.email}</td>
               <td>
-                <button>Edit</button>
+                <button onClick={() => updateContact(contact)}>Edit</button>
                 <button>Delete</button>
               </td>
             </tr>
@@ -33,7 +33,8 @@ const ContactList = ({ contacts }) => {
 }
 
 ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(ContactType).isRequired
+  contacts: PropTypes.arrayOf(ContactType).isRequired,
+  updateContact: PropTypes.func.isRequired,
 }
 
 export default ContactList;
