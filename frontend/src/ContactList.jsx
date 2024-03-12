@@ -1,7 +1,22 @@
 import { ContactType } from "./types/ContactType";
 import PropTypes from 'prop-types';
 
-const ContactList = ({ contacts, updateContact }) => {
+const ContactList = ({ contacts, updateContact, updateCallback }) => {
+  const deleteContact = async(contact) => {
+    const url = `http://127.0.0.1:5000/delete_contact/${contact.id}`;
+    const options = {
+      method: "DELETE"
+    }
+    const res = await fetch(url, options);
+
+    if (res.status !== 200) {
+      const data = await res.json();
+      alert(data.message);
+    } else {
+      updateCallback();
+    }
+  }
+
   return (
     <div>
       <h2>Contacts</h2>
@@ -22,7 +37,7 @@ const ContactList = ({ contacts, updateContact }) => {
               <td>{contact.email}</td>
               <td>
                 <button onClick={() => updateContact(contact)}>Edit</button>
-                <button>Delete</button>
+                <button onClick={() => deleteContact(contact)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -35,6 +50,7 @@ const ContactList = ({ contacts, updateContact }) => {
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(ContactType).isRequired,
   updateContact: PropTypes.func.isRequired,
+  updateCallback: PropTypes.func.isRequired
 }
 
 export default ContactList;
